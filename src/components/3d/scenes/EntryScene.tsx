@@ -11,7 +11,7 @@ import Link from 'next/link';
 
 function ParticleField({ count = 2000 }: { count?: number }) {
   const mesh = useRef<THREE.Points>(null);
-  const positions = useRef<Float32Array>();
+  const positions = useRef<Float32Array | undefined>(undefined);
 
   useEffect(() => {
     const pos = new Float32Array(count * 3);

@@ -71,6 +71,7 @@ function generateResult(inputs: SimulatorState) {
     score,
     website: inputs.presence === 'STRONG' ? 'HIGH' : 'VERY HIGH',
     seo: inputs.presence === 'NONE' ? 'VERY HIGH' : 'HIGH',
+    social: inputs.presence === 'NONE' ? 'HIGH' : 'MEDIUM',
     automation: inputs.goal === 'AUTOMATION' ? 'VERY HIGH' : 'HIGH',
     conversion: inputs.goal === 'MORE SALES' ? 'VERY HIGH' : 'HIGH',
     opportunityLevel: opportunityLevels[oppIndex],

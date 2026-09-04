@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, Suspense } from 'react';
+import React, { useRef, useState, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Html, Float } from '@react-three/drei';
 import * as THREE from 'three';
@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { projects } from '@/data/projects';
 
-const MODEL_GEOMETRIES: Record<string, JSX.Element> = {
+const MODEL_GEOMETRIES: Record<string, React.ReactNode> = {
   building: (
     <group>
       <mesh>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, Suspense } from 'react';
+import React, { useRef, useState, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Html, Float } from '@react-three/drei';
 import * as THREE from 'three';
@@ -56,7 +56,7 @@ function GrowthEngine() {
 
 // ─── Service Node ──────────────────────────────────────────────────────────────
 
-const NODE_GEOMETRIES: Record<string, JSX.Element> = {
+const NODE_GEOMETRIES: Record<string, React.ReactNode> = {
   browser: (
     <group>
       <mesh>

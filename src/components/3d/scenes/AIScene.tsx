@@ -134,7 +134,8 @@ function ConnectionLine({
   });
 
   return (
-    <line ref={lineRef as unknown as React.RefObject<THREE.Line>} geometry={geometry}>
+    // @ts-expect-error - React Three Fiber line element
+    <line ref={lineRef} geometry={geometry}>
       <lineBasicMaterial color="#2DD4BF" transparent opacity={0.08} linewidth={1} />
     </line>
   );
