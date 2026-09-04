@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <rect width="32" height="32" fill="#0a0908"/>
+  <!-- GB geometric mark: overlapping icosahedron-inspired wireframe shape -->
+  <polygon points="16,3 25,8.5 25,19.5 16,25 7,19.5 7,8.5" fill="none" stroke="#C97B3A" stroke-width="1.5"/>
+  <polygon points="16,7 22,10.5 22,17.5 16,21 10,17.5 10,10.5" fill="none" stroke="#E8893A" stroke-width="1" opacity="0.7"/>
+  <circle cx="16" cy="14" r="2.5" fill="#C97B3A"/>
+  <!-- Orbital ring -->
+  <ellipse cx="16" cy="14" rx="7" ry="3" fill="none" stroke="#C97B3A" stroke-width="0.8" opacity="0.5" transform="rotate(-20, 16, 14)"/>
+</svg>
