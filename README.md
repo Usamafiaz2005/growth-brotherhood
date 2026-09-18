@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Growth Brotherhood — Agency Site
 
-## Getting Started
+Marketing site for Growth Brotherhood, built around custom WebGL scenes and
+scroll-driven animation instead of a template.
 
-First, run the development server:
+## Live Demo
+[add your deployed link here]
 
+## What's real vs. simulated
+- ✅ 3D hero scene and scroll-driven sections — React Three Fiber + GSAP + Lenis
+- ✅ Lead capture form — sends to a real email endpoint (see `/api/leads`)
+- ⚠️ Featured work — includes concept/capability builds clearly marked as such
+  in `src/data/projects.ts`; no fabricated client results or testimonials
+
+## Stack
+- **Frontend:** Next.js (App Router), React, TypeScript
+- **3D/Animation:** React Three Fiber, @react-three/drei, @react-three/rapier, GSAP, Framer Motion, Lenis
+- **Styling:** Tailwind CSS
+
+## Architecture note worth knowing
+The entry 3D scene and scroll sections are decoupled per-component
+(`components/3d/scenes`, `components/sections`) so each animated section can
+be iterated on independently without re-touching the scroll orchestration
+logic.
+
+## Setup
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Requires `RESEND_API_KEY` and `LEAD_NOTIFY_EMAIL` (or your provider of
+choice) in `.env.local` for the lead capture form to work — see
+`src/app/api/leads/route.ts`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Roadmap
+- [ ] Replace email-only lead capture with a persisted database record
+- [ ] Add a real, verifiable case study once a live client project ships
