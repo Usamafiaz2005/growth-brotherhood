@@ -88,7 +88,7 @@ export default function ProofSection() {
               textTransform: 'uppercase',
             }}
           >
-            09 — THE PROOF
+            08 — THE PROOF
           </p>
           <h2
             style={{
@@ -314,7 +314,7 @@ export function AboutSection() {
             textTransform: 'uppercase',
           }}
         >
-          08 — WHY WE EXIST
+          07 — WHY WE EXIST
         </p>
 
         <motion.h2

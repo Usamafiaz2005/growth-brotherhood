@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import HowWeBuild from '@/components/sections/HowWeBuild';
 
 export const metadata: Metadata = {
   title: 'About — Growth Brotherhood',
   description: 'Why we exist. Growth Brotherhood is a digital growth agency that builds systems, not just websites.',
 };
-
-const FLOW = ['IDEA', 'DESIGN', 'TECHNOLOGY', 'AI', 'MARKETING', 'GROWTH'];
 
 export default function AboutPage() {
   return (
@@ -86,40 +85,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Flow */}
-      <section
-        style={{
-          background: 'var(--gb-charcoal)',
-          padding: '6rem 2rem',
-          overflow: 'hidden',
-        }}
-      >
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <p style={{ fontFamily: 'var(--font-display)', fontSize: '0.65rem', letterSpacing: '0.25em', color: 'var(--gb-offwhite-muted)', marginBottom: '2rem', textTransform: 'uppercase' }}>OUR PROCESS</p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0', alignItems: 'center' }}>
-            {FLOW.map((item, i) => (
-              <div key={item} style={{ display: 'flex', alignItems: 'center' }}>
-                <div
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: 'clamp(1.2rem, 3vw, 2.5rem)',
-                    fontWeight: 700,
-                    color: i === FLOW.length - 1 ? 'var(--gb-copper)' : 'var(--gb-offwhite)',
-                    padding: '0.75rem 1.25rem',
-                    border: i === FLOW.length - 1 ? '1px solid var(--gb-copper)' : '1px solid rgba(245,240,232,0.1)',
-                    letterSpacing: '-0.01em',
-                  }}
-                >
-                  {item}
-                </div>
-                {i < FLOW.length - 1 && (
-                  <span style={{ color: 'var(--gb-copper)', padding: '0 0.5rem', opacity: 0.5, fontSize: '1.2rem' }}>→</span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* 3D Build Process Section */}
+      <HowWeBuild />
 
       {/* Philosophy */}
       <section style={{ padding: '6rem 2rem' }}>

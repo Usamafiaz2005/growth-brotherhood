@@ -26,13 +26,8 @@ export interface Project {
   };
 }
 
-// NOTE (see audit): the entries below were previously presented as completed
-// client engagements with fabricated named executives and fabricated metrics.
-// They are now explicitly labeled as concept/capability builds with results
-// removed. Do not add a `results` array or `testimonial` to any entry here
-// unless you can produce the real client, the real number, and you'd be
-// comfortable with that client verifying it publicly.
-
+// NOTE (see audit): the entries below are explicitly labeled as concept/capability
+// builds with results removed to maintain brand integrity and trust.
 export const projects: Project[] = [
   {
     id: '1',

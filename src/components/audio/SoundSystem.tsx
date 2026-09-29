@@ -75,6 +75,37 @@ export const sfx = new SoundFX();
 export default function SoundToggle() {
   const [muted, setMuted] = useState(true);
 
+  useEffect(() => {
+    let lastHoverTime = 0;
+    const handleMouseOver = (e: MouseEvent) => {
+      if (!sfx.enabled) return;
+      const target = e.target as HTMLElement;
+      if (target.closest('a, button, [data-cursor], [role="button"], input, select, textarea')) {
+        const now = Date.now();
+        if (now - lastHoverTime > 90) {
+          lastHoverTime = now;
+          sfx.playHover();
+        }
+      }
+    };
+
+    const handleClick = (e: MouseEvent) => {
+      if (!sfx.enabled) return;
+      const target = e.target as HTMLElement;
+      if (target.closest('a, button, [data-cursor], [role="button"]')) {
+        sfx.playClick();
+      }
+    };
+
+    window.addEventListener('mouseover', handleMouseOver, { passive: true });
+    window.addEventListener('click', handleClick, { passive: true });
+
+    return () => {
+      window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('click', handleClick);
+    };
+  }, []);
+
   const toggleSound = () => {
     const nextState = !muted;
     setMuted(nextState);

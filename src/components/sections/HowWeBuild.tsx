@@ -193,7 +193,7 @@ export default function HowWeBuild() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
           gap: '4rem',
           maxWidth: 1200,
           margin: '0 auto',
@@ -203,7 +203,6 @@ export default function HowWeBuild() {
           zIndex: 10,
           width: '100%',
         }}
-        className="flex-col md:grid-cols-2"
       >
         {/* Left: text phases */}
         <div>

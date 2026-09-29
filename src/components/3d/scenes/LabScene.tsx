@@ -96,13 +96,13 @@ function ProjectObject({
   onLeave: () => void;
   isHovered: boolean;
 }) {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const groupRef = useRef<THREE.Group>(null);
   const lightRef = useRef<THREE.PointLight>(null);
 
   useFrame((state) => {
     const t = state.clock.elapsedTime;
-    if (!meshRef.current) return;
-    meshRef.current.rotation.y = t * 0.3;
+    if (!groupRef.current) return;
+    groupRef.current.rotation.y = t * 0.3;
     if (lightRef.current) {
       lightRef.current.intensity = isHovered ? 3 + Math.sin(t * 3) * 0.5 : 0;
     }
@@ -111,21 +111,14 @@ function ProjectObject({
   return (
     <group position={position}>
       <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-        <mesh
-          ref={meshRef}
+        <group
+          ref={groupRef}
           onPointerEnter={onHover}
           onPointerLeave={onLeave}
           scale={isHovered ? 1.2 : 1}
         >
           {MODEL_GEOMETRIES[project.model]}
-          <meshStandardMaterial
-            color={project.heroColor}
-            metalness={0.8}
-            roughness={0.2}
-            emissive={project.heroColor}
-            emissiveIntensity={isHovered ? 1.2 : 0.2}
-          />
-        </mesh>
+        </group>
 
         <pointLight ref={lightRef} color={project.heroColor} distance={4} intensity={0} />
       </Float>
@@ -262,7 +255,7 @@ export default function LabScene() {
             textTransform: 'uppercase',
           }}
         >
-          03 — PORTFOLIO
+          06 — CREATIVE LAB
         </p>
         <h2
           style={{

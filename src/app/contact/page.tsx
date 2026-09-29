@@ -106,6 +106,12 @@ export default function ContactPage() {
     }
   };
 
+  const goBack = () => {
+    if (currentStepIndex > 0) {
+      setStep(STEP_ORDER[currentStepIndex - 1]);
+    }
+  };
+
   const handleSubmit = async () => {
     setStep('sent');
     try {
@@ -114,7 +120,7 @@ export default function ContactPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       });
-    } catch (e) {
+    } catch {
       // Silent fail — submission confirmed UI anyway
     }
   };
@@ -190,20 +196,49 @@ export default function ContactPage() {
               <span style={{ color: 'var(--gb-copper)' }}>BUILDING?</span>
             </h1>
 
-            {/* Progress dots */}
-            <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center', marginBottom: '3rem' }}>
-              {STEP_ORDER.filter((s) => s !== 'done').map((s, i) => (
-                <div
-                  key={s}
+            {/* Progress dots & Back button */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', marginBottom: '3rem' }}>
+              <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+                {STEP_ORDER.filter((s) => s !== 'done').map((s, i) => (
+                  <div
+                    key={s}
+                    style={{
+                      width: i <= currentStepIndex ? 24 : 8,
+                      height: 4,
+                      borderRadius: 2,
+                      background: i < currentStepIndex ? 'var(--gb-copper)' : i === currentStepIndex ? 'var(--gb-copper-light)' : 'rgba(245,240,232,0.15)',
+                      transition: 'all 0.4s ease',
+                    }}
+                  />
+                ))}
+              </div>
+
+              {currentStepIndex > 0 && step !== 'done' && (
+                <button
+                  type="button"
+                  onClick={goBack}
+                  data-cursor="view"
                   style={{
-                    width: i <= currentStepIndex ? 24 : 8,
-                    height: 4,
-                    borderRadius: 2,
-                    background: i < currentStepIndex ? 'var(--gb-copper)' : i === currentStepIndex ? 'var(--gb-copper-light)' : 'rgba(245,240,232,0.15)',
-                    transition: 'all 0.4s ease',
+                    background: 'none',
+                    border: 'none',
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '0.65rem',
+                    letterSpacing: '0.15em',
+                    color: 'var(--gb-offwhite-muted)',
+                    cursor: 'none',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    textTransform: 'uppercase',
+                    transition: 'color 0.2s ease',
+                    padding: '0.25rem 0.5rem',
                   }}
-                />
-              ))}
+                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--gb-copper)'; }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'var(--gb-offwhite-muted)'; }}
+                >
+                  ← PREVIOUS STEP
+                </button>
+              )}
             </div>
 
             <AnimatePresence mode="wait">
@@ -218,6 +253,7 @@ export default function ContactPage() {
                   <FormField
                     label="YOUR NAME"
                     placeholder="First name"
+                    initialValue={form.name}
                     onSubmit={(v) => advance('name', v)}
                   />
                 )}
@@ -225,6 +261,7 @@ export default function ContactPage() {
                   <FormField
                     label="YOUR BUSINESS"
                     placeholder="Company name"
+                    initialValue={form.business}
                     onSubmit={(v) => advance('business', v)}
                   />
                 )}
@@ -232,6 +269,7 @@ export default function ContactPage() {
                   <FormField
                     label="YOUR WEBSITE"
                     placeholder="yoursite.com (or 'none')"
+                    initialValue={form.website}
                     onSubmit={(v) => advance('website', v)}
                     optional
                   />
@@ -266,6 +304,7 @@ export default function ContactPage() {
                   <TextareaField
                     label="YOUR MESSAGE"
                     placeholder="Tell us about your project, goals, and challenges..."
+                    initialValue={form.message}
                     onSubmit={(v) => advance('message', v)}
                     optional
                   />
@@ -275,6 +314,7 @@ export default function ContactPage() {
                     label="YOUR EMAIL"
                     placeholder="your@email.com"
                     type="email"
+                    initialValue={form.email}
                     onSubmit={(v) => advance('email', v)}
                   />
                 )}
@@ -389,11 +429,11 @@ export default function ContactPage() {
 // ── Sub-components ──────────────────────────────────────────────────────────────
 
 function FormField({
-  label, placeholder, type = 'text', onSubmit, optional = false,
+  label, placeholder, type = 'text', onSubmit, optional = false, initialValue = '',
 }: {
-  label: string; placeholder: string; type?: string; onSubmit: (v: string) => void; optional?: boolean;
+  label: string; placeholder: string; type?: string; onSubmit: (v: string) => void; optional?: boolean; initialValue?: string;
 }) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(initialValue);
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => { inputRef.current?.focus(); }, []);
 
@@ -442,6 +482,7 @@ function FormField({
       />
       <button
         type="submit"
+        data-cursor="enter"
         style={{
           fontFamily: 'var(--font-display)',
           fontSize: '0.75rem',
@@ -481,11 +522,11 @@ function FormField({
 }
 
 function TextareaField({
-  label, placeholder, onSubmit, optional = false,
+  label, placeholder, onSubmit, optional = false, initialValue = '',
 }: {
-  label: string; placeholder: string; onSubmit: (v: string) => void; optional?: boolean;
+  label: string; placeholder: string; onSubmit: (v: string) => void; optional?: boolean; initialValue?: string;
 }) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(initialValue);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(value.trim());
@@ -503,7 +544,7 @@ function TextareaField({
         rows={4}
         style={{ width: '100%', background: 'rgba(17,17,16,0.8)', border: '1px solid rgba(245,240,232,0.15)', padding: '1rem', fontFamily: 'var(--font-body)', fontSize: '0.95rem', color: 'var(--gb-offwhite)', outline: 'none', marginBottom: '2rem', resize: 'vertical' }}
       />
-      <button type="submit" style={{ fontFamily: 'var(--font-display)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.2em', color: 'var(--gb-black)', background: 'var(--gb-copper)', border: 'none', padding: '0.875rem 2rem', cursor: 'none', textTransform: 'uppercase' }}>CONTINUE →</button>
+      <button type="submit" data-cursor="enter" style={{ fontFamily: 'var(--font-display)', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.2em', color: 'var(--gb-black)', background: 'var(--gb-copper)', border: 'none', padding: '0.875rem 2rem', cursor: 'none', textTransform: 'uppercase' }}>CONTINUE →</button>
       {optional && <button type="button" onClick={() => onSubmit('')} style={{ fontFamily: 'var(--font-display)', fontSize: '0.7rem', letterSpacing: '0.15em', color: 'var(--gb-offwhite-muted)', background: 'transparent', border: 'none', padding: '0.875rem 1.5rem', cursor: 'none', textTransform: 'uppercase' }}>SKIP</button>}
     </form>
   );

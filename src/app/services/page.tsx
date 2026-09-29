@@ -18,34 +18,39 @@ export default function ServicesPage() {
       }}
     >
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ marginBottom: '6rem' }}>
-          <p
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: '0.65rem',
-              letterSpacing: '0.3em',
-              color: 'var(--gb-copper)',
-              marginBottom: '1rem',
-              textTransform: 'uppercase',
-            }}
-          >
-            WHAT WE DO
-          </p>
-          <h1
-            style={{
-              fontFamily: 'var(--font-display)',
-              fontSize: 'clamp(3rem, 8vw, 7rem)',
-              fontWeight: 700,
-              letterSpacing: '-0.04em',
-              color: 'var(--gb-offwhite)',
-              lineHeight: 0.9,
-              marginBottom: '2rem',
-            }}
-          >
-            SIX SERVICES.
-            <br />
-            <span style={{ color: 'var(--gb-copper)' }}>ONE SYSTEM.</span>
-          </h1>
+        <div style={{ marginBottom: '6rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '2rem' }}>
+          <div>
+            <p
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.65rem',
+                letterSpacing: '0.3em',
+                color: 'var(--gb-copper)',
+                marginBottom: '1rem',
+                textTransform: 'uppercase',
+              }}
+            >
+              WHAT WE DO
+            </p>
+            <h1
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 'clamp(3rem, 8vw, 7rem)',
+                fontWeight: 700,
+                letterSpacing: '-0.04em',
+                color: 'var(--gb-offwhite)',
+                lineHeight: 0.9,
+              }}
+            >
+              SIX SERVICES.
+              <br />
+              <span style={{ color: 'var(--gb-copper)' }}>ONE SYSTEM.</span>
+            </h1>
+          </div>
+
+          <Link href="/lab" className="gb-btn-outline" data-cursor="enter">
+            VIEW INTERACTIVE 3D SYSTEM →
+          </Link>
         </div>
 
         <div style={{ display: 'grid', gap: '2px' }}>

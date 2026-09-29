@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: '404 — Page Not Found | Growth Brotherhood',
@@ -58,8 +59,9 @@ export default function NotFound() {
       >
         This page doesn't exist — but your growth system does. Let's build it.
       </p>
-      <a
+      <Link
         href="/"
+        data-cursor="enter"
         style={{
           fontFamily: 'var(--font-display)',
           fontSize: '0.8rem',
@@ -73,7 +75,7 @@ export default function NotFound() {
         }}
       >
         RETURN HOME →
-      </a>
+      </Link>
     </main>
   );
 }

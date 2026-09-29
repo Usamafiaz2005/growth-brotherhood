@@ -23,8 +23,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CaseStudyPage({ params }: Props) {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
-  if (!project) notFound();
+  const projectIndex = projects.findIndex((p) => p.slug === slug);
+  if (projectIndex === -1) notFound();
+  const project = projects[projectIndex];
+  const nextProject = projects[(projectIndex + 1) % projects.length];
 
   return (
     <main
@@ -158,52 +160,82 @@ export default async function CaseStudyPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Results banner */}
-      <section
-        style={{
-          background: 'var(--gb-charcoal)',
-          padding: '3rem 2rem',
-          borderBottom: '1px solid rgba(245,240,232,0.06)',
-        }}
-      >
-        <div
+      {/* Results banner or Concept Build Notice */}
+      {project.results && project.results.length > 0 ? (
+        <section
           style={{
-            maxWidth: 1100,
-            margin: '0 auto',
-            display: 'grid',
-            gridTemplateColumns: `repeat(${project.results.length}, 1fr)`,
-            gap: '1rem',
+            background: 'var(--gb-charcoal)',
+            padding: '3rem 2rem',
+            borderBottom: '1px solid rgba(245,240,232,0.06)',
           }}
         >
-          {project.results.map((result) => (
-            <div key={result.label} style={{ textAlign: 'center', padding: '1rem' }}>
-              <p
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
-                  fontWeight: 700,
-                  color: project.heroColor,
-                  letterSpacing: '-0.02em',
-                  marginBottom: '0.25rem',
-                }}
-              >
-                {result.value}
-              </p>
-              <p
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.18em',
-                  color: 'var(--gb-offwhite-muted)',
-                  textTransform: 'uppercase',
-                }}
-              >
-                {result.label}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
+          <div
+            style={{
+              maxWidth: 1100,
+              margin: '0 auto',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+              gap: '1.5rem',
+            }}
+          >
+            {project.results.map((result) => (
+              <div key={result.label} style={{ textAlign: 'center', padding: '1rem' }}>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
+                    fontWeight: 700,
+                    color: project.heroColor,
+                    letterSpacing: '-0.02em',
+                    marginBottom: '0.25rem',
+                  }}
+                >
+                  {result.value}
+                </p>
+                <p
+                  style={{
+                    fontFamily: 'var(--font-display)',
+                    fontSize: '0.6rem',
+                    letterSpacing: '0.18em',
+                    color: 'var(--gb-offwhite-muted)',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {result.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : project.isConceptBuild ? (
+        <section
+          style={{
+            background: 'rgba(201, 123, 58, 0.05)',
+            padding: '1.5rem 2rem',
+            borderBottom: '1px solid rgba(201, 123, 58, 0.15)',
+          }}
+        >
+          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <span
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.65rem',
+                letterSpacing: '0.15em',
+                color: 'var(--gb-copper)',
+                padding: '0.25rem 0.6rem',
+                border: '1px solid var(--gb-copper)',
+                borderRadius: '2px',
+                textTransform: 'uppercase',
+              }}
+            >
+              Capability Build
+            </span>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: '0.85rem', color: 'var(--gb-offwhite-muted)', margin: 0 }}>
+              This system is an architectural prototype designed to demonstrate specific technical capabilities and workflow integration.
+            </p>
+          </div>
+        </section>
+      ) : null}
 
       {/* Case study body */}
       <section style={{ padding: '6rem 2rem' }}>
@@ -328,6 +360,22 @@ export default async function CaseStudyPage({ params }: Props) {
           }}
         >
           ← ALL WORK
+        </Link>
+        <Link
+          href={`/work/${nextProject.slug}`}
+          data-cursor="explore"
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '0.75rem',
+            fontWeight: 600,
+            letterSpacing: '0.15em',
+            color: 'var(--gb-copper)',
+            textDecoration: 'none',
+            textTransform: 'uppercase',
+            transition: 'color 0.3s ease',
+          }}
+        >
+          NEXT CASE STUDY: {nextProject.title} →
         </Link>
         <Link
           href="/contact"

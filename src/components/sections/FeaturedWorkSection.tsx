@@ -95,43 +95,73 @@ export default function FeaturedWorkSection() {
                   </div>
 
                   <div>
-                    {/* Key Metrics Grid */}
+                    {/* Key Metrics or Concept Badge */}
                     <div
                       style={{
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 1fr',
-                        gap: '1rem',
                         paddingTop: '1.5rem',
                         borderTop: '1px solid rgba(245, 240, 232, 0.08)',
                       }}
                     >
-                      {project.results.slice(0, 2).map((res) => (
-                        <div key={res.label}>
-                          <p
+                      {project.results && project.results.length > 0 ? (
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                          {project.results.slice(0, 2).map((res) => (
+                            <div key={res.label}>
+                              <p
+                                style={{
+                                  fontFamily: 'var(--font-display)',
+                                  fontSize: '1.5rem',
+                                  fontWeight: 700,
+                                  color: 'var(--gb-copper)',
+                                  lineHeight: 1,
+                                  marginBottom: '0.25rem',
+                                }}
+                              >
+                                {res.value}
+                              </p>
+                              <p
+                                style={{
+                                  fontFamily: 'var(--font-display)',
+                                  fontSize: '0.6rem',
+                                  letterSpacing: '0.12em',
+                                  color: 'var(--gb-offwhite-muted)',
+                                  textTransform: 'uppercase',
+                                }}
+                              >
+                                {res.label}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}>
+                          <span
                             style={{
                               fontFamily: 'var(--font-display)',
-                              fontSize: '1.5rem',
-                              fontWeight: 700,
+                              fontSize: '0.65rem',
+                              letterSpacing: '0.1em',
+                              padding: '0.35rem 0.75rem',
+                              border: '1px solid rgba(201, 123, 58, 0.3)',
                               color: 'var(--gb-copper)',
-                              lineHeight: 1,
-                              marginBottom: '0.25rem',
-                            }}
-                          >
-                            {res.value}
-                          </p>
-                          <p
-                            style={{
-                              fontFamily: 'var(--font-display)',
-                              fontSize: '0.6rem',
-                              letterSpacing: '0.12em',
-                              color: 'var(--gb-offwhite-muted)',
+                              borderRadius: '2px',
                               textTransform: 'uppercase',
                             }}
                           >
-                            {res.label}
-                          </p>
+                            {project.isConceptBuild ? 'Concept Prototype' : 'Active System'}
+                          </span>
+                          {project.services.slice(0, 2).map((srv) => (
+                            <span
+                              key={srv}
+                              style={{
+                                fontFamily: 'var(--font-body)',
+                                fontSize: '0.75rem',
+                                color: 'var(--gb-offwhite-muted)',
+                              }}
+                            >
+                              • {srv}
+                            </span>
+                          ))}
                         </div>
-                      ))}
+                      )}
                     </div>
                   </div>
                 </Link>

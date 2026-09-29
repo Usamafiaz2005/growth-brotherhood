@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, Suspense } from 'react';
+import { useEffect, useRef, useState, useMemo, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Float, Stars, Trail } from '@react-three/drei';
 import * as THREE from 'three';
@@ -11,16 +11,14 @@ import Link from 'next/link';
 
 function ParticleField({ count = 2000 }: { count?: number }) {
   const mesh = useRef<THREE.Points>(null);
-  const positions = useRef<Float32Array | undefined>(undefined);
-
-  useEffect(() => {
+  const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       pos[i * 3] = (Math.random() - 0.5) * 20;
       pos[i * 3 + 1] = (Math.random() - 0.5) * 20;
       pos[i * 3 + 2] = (Math.random() - 0.5) * 20;
     }
-    positions.current = pos;
+    return pos;
   }, [count]);
 
   useFrame((state) => {
@@ -29,14 +27,12 @@ function ParticleField({ count = 2000 }: { count?: number }) {
     mesh.current.rotation.x = state.clock.elapsedTime * 0.01;
   });
 
-  if (!positions.current) return null;
-
   return (
     <points ref={mesh}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          args={[positions.current, 3]}
+          args={[positions, 3]}
         />
       </bufferGeometry>
       <pointsMaterial
@@ -382,47 +378,50 @@ export default function EntryScene() {
           )}
         </AnimatePresence>
 
-        {/* Scroll indicator */}
-        <AnimatePresence>
-          {phase >= 4 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 1 }}
+      </div>
+
+      {/* Scroll indicator */}
+      <AnimatePresence>
+        {phase >= 4 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 1 }}
+            style={{
+              position: 'absolute',
+              bottom: '2rem',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 10,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0.5rem',
+              color: 'var(--gb-offwhite-muted)',
+              pointerEvents: 'none',
+            }}
+          >
+            <span
               style={{
-                position: 'absolute',
-                bottom: '-40vh',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '0.5rem',
-                color: 'var(--gb-offwhite-muted)',
+                fontFamily: 'var(--font-display)',
+                fontSize: '0.6rem',
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
               }}
             >
-              <span
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '0.6rem',
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                SCROLL
-              </span>
-              <div
-                style={{
-                  width: 1,
-                  height: 50,
-                  background: 'linear-gradient(to bottom, var(--gb-copper), transparent)',
-                  animation: 'fadeUp 2s ease-in-out infinite',
-                }}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+              SCROLL
+            </span>
+            <div
+              style={{
+                width: 1,
+                height: 40,
+                background: 'linear-gradient(to bottom, var(--gb-copper), transparent)',
+                animation: 'fadeUp 2s ease-in-out infinite',
+              }}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

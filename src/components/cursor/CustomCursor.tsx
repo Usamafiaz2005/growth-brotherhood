@@ -22,7 +22,7 @@ export default function CustomCursor() {
 
     const onMove = (e: MouseEvent) => {
       pos.current = { x: e.clientX, y: e.clientY };
-      if (!visible) setVisible(true);
+      setVisible(true);
     };
 
     const onLeave = () => setVisible(false);
@@ -44,14 +44,14 @@ export default function CustomCursor() {
       }
     };
 
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseover', onOver);
+    window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('mouseover', onOver, { passive: true });
     document.documentElement.addEventListener('mouseleave', onLeave);
     document.documentElement.addEventListener('mouseenter', onEnter);
 
     const animate = () => {
-      const lerpFactor = 0.12;
-      const ringLerp = 0.07;
+      const lerpFactor = 0.14;
+      const ringLerp = 0.08;
 
       dot.current.x += (pos.current.x - dot.current.x) * lerpFactor;
       dot.current.y += (pos.current.y - dot.current.y) * lerpFactor;
@@ -59,13 +59,13 @@ export default function CustomCursor() {
       ring.current.y += (pos.current.y - ring.current.y) * ringLerp;
 
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${dot.current.x - 4}px, ${dot.current.y - 4}px)`;
+        dotRef.current.style.transform = `translate3d(${dot.current.x}px, ${dot.current.y}px, 0) translate(-50%, -50%)`;
       }
       if (ringRef.current) {
-        ringRef.current.style.transform = `translate(${ring.current.x - 20}px, ${ring.current.y - 20}px)`;
+        ringRef.current.style.transform = `translate3d(${ring.current.x}px, ${ring.current.y}px, 0) translate(-50%, -50%)`;
       }
       if (labelRef.current) {
-        labelRef.current.style.transform = `translate(${ring.current.x + 14}px, ${ring.current.y - 10}px)`;
+        labelRef.current.style.transform = `translate3d(${ring.current.x + 16}px, ${ring.current.y - 12}px, 0)`;
       }
 
       rafRef.current = requestAnimationFrame(animate);
@@ -80,7 +80,7 @@ export default function CustomCursor() {
       document.documentElement.removeEventListener('mouseenter', onEnter);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [visible]);
+  }, []);
 
   const isExpanded = state !== 'default';
 

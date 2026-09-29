@@ -182,7 +182,7 @@ export default function GrowthSimulator() {
             textTransform: 'uppercase',
           }}
         >
-          04 — GROWTH SIMULATOR
+          05 — GROWTH SIMULATOR
         </p>
         <h2
           style={{
